@@ -28,6 +28,7 @@ def remove_duplicates():
         for url in urls:
             f.write(url + '\n')
 
+
 def print_list():
     with open('list.txt', 'r') as f:
         content = f.read()

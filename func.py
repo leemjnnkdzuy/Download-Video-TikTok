@@ -3,7 +3,7 @@ from api import API
 import requests
 import os
 
-def get_info(link):
+def get_video(link):
     data = API(link)
 
     if data:
@@ -40,21 +40,8 @@ def get_info(link):
 
         print(f"\nThông tin {sanitized_video_id} đã được tải xuống và lưu trong thư mục {sanitized_author}/info/")
 
-def download_video(link):
-    data = API(link)
 
-    if data:
-        videoid = data.get('videoid')
-        author = data.get('author')
-
-        sanitized_author = str(author).replace("[", "").replace("]", "").replace("'", "")
-        sanitized_video_id = str(videoid).replace("[", "").replace("]", "").replace("'", "")
-
-        video_url = data.get('video', '')
-
-        sanitized_video_url = str(video_url).replace("[", "").replace("]", "").replace("'", "")
-
-        video_response = requests.get(sanitized_video_url)
+        video_response = requests.get(sanitized_video)
 
         if video_response.status_code == 200:
             if not os.path.exists(f"{sanitized_author}/video"):
@@ -67,14 +54,16 @@ def download_video(link):
         else:
             print("Không thể tải xuống video")
 
-def start_downloading(link):
-    get_info(link)
-    download_video(link)
 
 def clean_up(file):
     with open(file, 'w', encoding='utf-8') as f:
             f.write('')
 
-def open_txt_file():
-    file_path = 'input.txt'
+def open_txt_file(file):
+    file_path = file
     os.system(f'notepad.exe {file_path}')
+
+def import_array_from_file(file):
+    with open(file, 'r', encoding='utf-8') as f:
+        arr = f.readlines()
+    return arr
