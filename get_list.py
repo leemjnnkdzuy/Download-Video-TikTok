@@ -1,5 +1,6 @@
 import re
 import requests
+import concurrent.futures
 
 def format():
     with open('input.txt', 'r', encoding='utf-8') as f:
@@ -20,6 +21,10 @@ def format():
         for url in accessible_urls:
             f.write(url + '\n')
 
+    with open('list.txt', 'w') as f:
+        for url in accessible_urls:
+            f.write(url + '\n')
+
 def remove_duplicates():
     with open('list.txt', 'r') as f:
         urls = set(line.strip() for line in f)
@@ -27,7 +32,6 @@ def remove_duplicates():
     with open('list.txt', 'w') as f:
         for url in urls:
             f.write(url + '\n')
-
 
 def print_list():
     with open('list.txt', 'r') as f:

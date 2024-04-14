@@ -1,12 +1,19 @@
-import requests
+import requests 
+
+def read_api_key(file):
+    with open(file, 'r', encoding='utf-8') as f:
+        api_key = f.read()
+    return api_key
 
 def API(link):
     url = "https://tiktok-downloader-download-tiktok-videos-without-watermark.p.rapidapi.com/vid/index"
+    
+    api = read_api_key('api_key.txt')
 
     querystring = {"url": link}
 
     headers = {
-        "X-RapidAPI-Key": "9cf5a71810msh1694cf5276f68f3p15199cjsn34794d661141",
+        "X-RapidAPI-Key": api,
         "X-RapidAPI-Host": "tiktok-downloader-download-tiktok-videos-without-watermark.p.rapidapi.com"
     }
 

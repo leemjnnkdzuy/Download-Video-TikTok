@@ -1,6 +1,7 @@
 from func import get_video, clean_up, open_txt_file
 from get_list import get_list, print_list
 from welcome import welcome
+from func import check_api_key, check_api_key_empty
 
 import re
 import os
@@ -28,9 +29,12 @@ def start():
 
     print("Tải xuống hoàn tất!")
 
-if __name__ == "__main__":
+while __name__ == "__main__":
 
     welcome()
+
+    check_api_key()
+    check_api_key_empty('api_key.txt')
 
 
     if not os.path.exists('input.txt'):
@@ -44,6 +48,8 @@ if __name__ == "__main__":
 
     with open('input.txt', 'r', encoding='utf-8') as f:
         content = f.read()
+
+    
 
     if content == '':
         print("File 'input.txt' rỗng, hãy import Source Code của trang tiktok vào file 'input.txt'")
