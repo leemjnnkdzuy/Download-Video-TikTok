@@ -1,7 +1,6 @@
-from func import get_video, clean_up, open_txt_file
 from get_list import get_list, print_list
 from welcome import welcome
-from func import check_api_key, check_api_key_empty
+from func import check_api_key, check_api_key_empty, get_video, clean_up, open_txt_file
 
 import re
 import os
