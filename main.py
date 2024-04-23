@@ -1,65 +1,37 @@
-from get_list import get_list, print_list
+
 from welcome import welcome
-from func import check_api_key, check_api_key_empty, get_video, clean_up, open_txt_file
-
-import re
-import os
-
-def start():
-    print("Đang tải danh sách video...")
-
-    get_list()
-
-    print("Đã tải xong danh sách video!")
-    print("Đây là danh sách video: ")
-    print_list()
-
-    with open('list.txt', 'r', encoding='utf-8') as f:
-        content = f.read()
-
-    urls = re.findall(r'https://www\.tiktok\.com/@[^/]+/video/\d+', content)
-
-    total = len(urls)
-    for i, url in enumerate(urls):
-        get_video(url)
-        print(f"Đã tải: {i+1} / {total}")
-
-    os.remove('list.txt')
-
-    print("Tải xuống hoàn tất!")
+from file_process import open_txt_file, clean_up, real_file, delete_file
+from check_err import check_file_exist, check_empty
+from main_func import start
+from video_func import mirror_videos
 
 while __name__ == "__main__":
 
     welcome()
 
-    check_api_key()
-    check_api_key_empty('api_key.txt')
+    check_file_exist('api_key.txt')
+    check_empty('api_key.txt')
 
+    check_file_exist('input.txt')
 
-    if not os.path.exists('input.txt'):
-        print("File 'input.txt' không tồn tại")
-        open('input.txt', 'w')
-        if not os.path.exists('input.txt'):
-            print("Không thể tạo file 'input.txt'")
-            exit()
-        else:
-            print("File 'input.txt' đã được tự động tạo!")
-
-    with open('input.txt', 'r', encoding='utf-8') as f:
-        content = f.read()
-
+    content = real_file('input.txt')
     
-
     if content == '':
-        print("File 'input.txt' rỗng, hãy import Source Code của trang tiktok vào file 'input.txt'")
-        open_txt_file('input.txt')
-        if not os.path.exists('input.txt'):
-            print("Không thể mở file 'input.txt'")
-            exit()
-        else:
-            print("File 'input.txt' đã được mở")
+        check_empty('input.txt')
     else:
         start()
+
+        print("\n\nBạn có muốn chỉnh sửa toàn bộ video sơ bộ không?")
+        print("1. Có")
+        print("2. Không")
+        choice = input("Chọn: ")
+        if choice == '1':
+            mirror_videos()
+            print("\n\nChỉnh sửa toàn bộ video sơ bộ đã hoàn tất!")
+        else:
+            print("Toàn bộ video được giữ nguyên!")
+
+        delete_file('list.txt')
 
         print("\n\nBạn có muốn tiếp tục tải xuống không?")
         print("1. Có")
